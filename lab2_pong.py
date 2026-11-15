@@ -110,9 +110,7 @@ def get_config() -> tuple[int, int, int, int, int]:
     valid_input = False
     while valid_input == False:
         try:
-            resposta = input(("Vols canviar la configuració (y/n)?: "))
-            resposta_minuscula = resposta.lower() 
-            if resposta_minuscula == "y": # Falta hacer que tenga un máximo de píxeles, imagino con un if.
+            if ask_yes_no("Vols cambiar els paràmetres principals? "): # Falta hacer que tenga un máximo de píxeles, imagino con un if.
                 PADDLE_H_UPDATE = int(input("Introdueix una nova altura de la pala (píxels): "))
                 PADDLE_H = PADDLE_H_UPDATE
                 SPEED_PADDLE_UPDATE = int(input("Introdueix una nova velocitat de la pala (píxels): "))
@@ -124,7 +122,7 @@ def get_config() -> tuple[int, int, int, int, int]:
                 BALL_RADIUS_UPDATE = int(input("Introdueix una nou radi de la bola (píxels): "))
                 BALL_RADIUS = BALL_RADIUS_UPDATE
                 valid_input = True
-            elif resposta_minuscula == "n":
+            else:
                 valid_input = True
                 
         except ValueError:
@@ -167,6 +165,7 @@ def change_colors() -> tuple[tuple[int, int, int], tuple[int, int, int]]:
     """
 
     # TODO: put your code!!!!
+
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
@@ -226,6 +225,17 @@ def read_int_in_range(prompt: str, low: int, high: int) -> int:
     """
     
     # TODO: put your code!!!!
+    valid_input = False
+    while valid_input == False:
+        try:
+            pregunta = input(prompt  + f" (entre {low} i {high}): ")
+            numero = int(pregunta)
+            if low <= numero and numero <= high:
+                return numero
+            else:
+                print(f"Has d'introduïr un nombre dins del rang {low} i {high}")
+        except ValueError:
+            print("Has d'introduïr un nombre vàlid enter")
 
 def read_int_in_range_w_default(prompt: str, low: int, high: int, default_val: int) -> int:
     """ Advanced/alternate more user-friendly version of read_int_in_range().
@@ -292,7 +302,16 @@ def ask_yes_no(prompt: str) -> bool:
     - Return only after receiving a valid input; do not stop the program with errors.
     """
     # TODO: put your code!!!!
-
+    valid_input = False 
+    while valid_input == False:
+        pregunta = input(prompt + " (y/n): ").lower().strip()
+        if pregunta == "y" or pregunta == "yes":
+            return True
+        elif pregunta == "n" or pregunta == "no":
+            return False
+        else: 
+            print("Has d'introduir una resposta del tipus 'y/n'")
+     
 # ================================
 # Functions to complete: main game
 # ================================
