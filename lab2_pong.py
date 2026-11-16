@@ -341,10 +341,19 @@ def move_paddle(current_y: int, direction: int, speed: int, height: int, paddle_
     That is when it reaches the limits (up or down) it stays there, so consider paddle_h and height here.
     """
     # TODO: put your code!!!!
+    new_y = (current_y + speed*direction)
+    if new_y <= 0:
+        new_y = 0
+        return new_y
+    elif new_y >= height - paddle_h:
+        new_y = height - paddle_h
+        return new_y
+    else:
+        return new_y
     
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
-    return current_y
+
 
 
 def move_ball(x: int, y: int, vx: int, vy: int) -> tuple[int, int]:
@@ -362,10 +371,13 @@ def move_ball(x: int, y: int, vx: int, vy: int) -> tuple[int, int]:
     """
 
     # TODO: put your code!!!!
+    new_x = (x+vx)
+    new_y = (y+vy)
+    return new_x, new_y
+
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
-    return x, y
 
 
 def collide_ball_walls(x: int, y: int, vx: int, vy: int, radius: int, width: int, height: int) -> tuple[int, int, int, int]:
@@ -387,10 +399,18 @@ def collide_ball_walls(x: int, y: int, vx: int, vy: int, radius: int, width: int
         For precisely detecting collisions, you might need to consider the ball radius
     """
     # TODO: put your code!!!!
+    if y - radius <= 0:
+        y = radius
+        vy = -vy
+        return x,y,vx,vy
+    elif y + radius >= height:
+        y = height - radius
+        vy = -vy
+        return x,y,vx,vy
+    else: return x,y,vx,vy
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
-    return x, y, vx, vy
 
 
 def collide_ball_paddle(x: int, y: int, vx: int, vy: int, paddle_x: int, paddle_y: int, paddle_w: int, paddle_h: int, radius: int) -> tuple[int, int, int, int, bool]:
@@ -443,11 +463,29 @@ def collide_ball_paddle(x: int, y: int, vx: int, vy: int, paddle_x: int, paddle_
       which is sufficient for this game.
     """
     # TODO: put your code!!!!
-    hit = False
+    left_paddle   = paddle_x
+    right_paddle  = paddle_x + paddle_w
+    top_paddle    = paddle_y
+    bottom_paddle = paddle_y + paddle_h
+    left_ball   = x - radius
+    right_ball  = x + radius
+    top_ball    = y - radius
+    bottom_ball = y + radius
+    if right_ball >= left_paddle and left_ball <= right_paddle and bottom_ball >= top_paddle and top_ball <= bottom_paddle: # quan la bola col·lapsa amb el paddle i quan la seva part inferior o superior toca amb la pala
+        if vx < 0:
+            x_new = right_paddle + radius # posa la bola a la posició de la pala esquerra (ja que té direcció negativa) més el radi, per no sol·lapar-se
+        elif vx > 0:
+            x_new = left_paddle - radius # posa la bola a la posició de la pala dreta (ja que té direcció positiva) menys el radi, per no sol·lapar-se
+        hit = True
+        vx_new = -vx
+    else:
+        x_new = x
+        vx_new = vx
+        hit = False
+    return x_new,y,vx_new,vy,hit
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
-    return x, y, vx, vy, hit
 
 def reset_ball(center_x: int, center_y: int, vx0: int, vy0: int, to_right: bool) -> tuple[int, int, int, int]:
     """ Reset the ball to the center of the screen and return its initial position and velocity after a point has been scored.
