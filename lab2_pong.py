@@ -165,12 +165,12 @@ def change_colors() -> tuple[tuple[int, int, int], tuple[int, int, int]]:
     """
 
     # TODO: put your code!!!!
-    if ask_yes_no("Vols canviar la configuració dels colors?"):
-        background_color = read_color("background")
+    if ask_yes_no("Vols canviar la configuració dels colors?"): # preguntem amb la funcio ask_yes_no si l'usuari vol canviar la configuració dels colors
+        background_color = read_color("background") # fem un background i un foreground i gràcies a la funció read_color detectem quin color RGB decideix l'usuari
         foreground_color = read_color("foreground")
-        return background_color, foreground_color
+        return background_color, foreground_color # returnem aquests 2 valors que ha introduït l'usuari
     else:
-        return BLACK, WHITE
+        return BLACK, WHITE # si no fa cap canvi, o sigui quan respón amb no la ask_yes_no, retornem els colors per defecte black i white
     
     
 
@@ -207,11 +207,10 @@ def read_color(prompt: str) -> tuple[int, int, int]:
     """ 
 
     # TODO: put your code!!!!
-    r = read_int_in_range(f"Inserta el component vermell de {prompt}", 0, 255)
+    r = read_int_in_range(f"Inserta el component vermell de {prompt}", 0, 255) # demanem amb la funció read_int_in_range cada component dels colors RGB entre el rang 0 y 255 per qualsevol prompt
     g = read_int_in_range(f"Inserta el component verd de {prompt}", 0, 255)
     b = read_int_in_range(f"Inserta el component blau de {prompt}", 0, 255)
-    return r, g, b
-    # return r, g, b
+    return r, g, b # retornem aquests valors, ho posem tot junt ja que volem retornar tots els valors i fer-ho en diferents líneas només retornaría el primer return
 
 def read_int_in_range(prompt: str, low: int, high: int) -> int:
     """Ask user for an integer within [low, high]. 
@@ -235,16 +234,16 @@ def read_int_in_range(prompt: str, low: int, high: int) -> int:
     """
     
     # TODO: put your code!!!!
-    valid_input = False
+    valid_input = False # creem la variable valid_input i li asignem el valor Fals, per així crear un bucle, també podríem fer-ho amb while True ja que el return directament tanca aquest bucle
     while valid_input == False:
-        try:
-            pregunta = input(prompt  + f" (entre {low} i {high}): ")
-            numero = int(pregunta)
-            if low <= numero and numero <= high:
-                return numero
-            else:
+        try: # posem un try per poder detectar casos de ValueError, o sigui quan introdueixen un valor que no es un int
+            pregunta = input(prompt  + f" (entre {low} i {high}): ") # fem un input el qual demani un prompt i especifiqui entre quin rang demanarà el número
+            numero = int(pregunta) # pasem el número a integer en una nova variable per fer-ho més visual, ja que tenim la pregunta i la resposa que doni serà el número
+            if low <= numero and numero <= high: # quan el número donat es troba entre el rang 
+                return numero # torna el número, ja que compleix amb les condicions
+            else: # quan no compleixi amb les condicions, o sigui no es trobi dins del rang
                 print(f"Has d'introduïr un nombre dins del rang {low} i {high}")
-        except ValueError:
+        except ValueError: # en el cas de que introdueixi qualsevol cosa que no sigui un nombre enter
             print("Has d'introduïr un nombre vàlid enter")
 
 def read_int_in_range_w_default(prompt: str, low: int, high: int, default_val: int) -> int:
@@ -312,14 +311,14 @@ def ask_yes_no(prompt: str) -> bool:
     - Return only after receiving a valid input; do not stop the program with errors.
     """
     # TODO: put your code!!!!
-    valid_input = False 
+    valid_input = False # Fem un altre bucle, tot i que podría ser igualment while True
     while valid_input == False:
-        pregunta = input(prompt + " (y/n): ").lower().strip()
-        if pregunta == "y" or pregunta == "yes":
-            return True
-        elif pregunta == "n" or pregunta == "no":
-            return False
-        else: 
+        pregunta = input(prompt + " (y/n): ").lower().strip() # Fem una pregunta i guardem el valor que hagi posat l'usuari en lletres minúscules i sense espais per evitar errors deguts a aquests caràcters
+        if pregunta == "y" or pregunta == "yes": # quan l'usuari respongui y o yes
+            return True # tornem el valor booleà True, per així saber que vol continuar
+        elif pregunta == "n" or pregunta == "no": # quan l'usuari respongui n o no
+            return False # tornem el valor booleà Fals, així sabem que l'usuari no vol continuar 
+        else: # en cas de que no respongui ni amb les respostes de sí o de no
             print("Has d'introduir una resposta del tipus 'y/n'")
      
 # ================================
@@ -341,15 +340,15 @@ def move_paddle(current_y: int, direction: int, speed: int, height: int, paddle_
     That is when it reaches the limits (up or down) it stays there, so consider paddle_h and height here.
     """
     # TODO: put your code!!!!
-    new_y = (current_y + speed*direction)
-    if new_y <= 0:
-        new_y = 0
-        return new_y
-    elif new_y >= height - paddle_h:
-        new_y = height - paddle_h
-        return new_y
-    else:
-        return new_y
+    new_y = (current_y + speed*direction) # fem una nova variable per la nova posició y, la qual augmentarà segons la velocitat, i com la direcció es -1 o 1, si ho multipliquem sabrem si es resta o es suma el número de pixels
+    if new_y <= 0: # en cas de que la pala es trobi per sota del valor 0, o sigui l'extrem superior de la pantalla (ja que l'alçada va cap abaix)
+        new_y = 0 # tornem aquest mateix valor per fer que no surti de la pantalla
+        return new_y # retornem la nova y
+    elif new_y >= height - paddle_h: # en cas de que la pala es trobi en l'extrem inferior o fora, ja que la posició on toca amb l'extrem serà l'alçada de la pantalla total menys l'alçada de la pala, ja que si ho supera surtirà de la pantalla
+        new_y = height - paddle_h # tornem el valor màxim on no surt de la pantalla
+        return new_y 
+    else: # en qualsevol altre cas on no toca amb cap dels extrems
+        return new_y #
     
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
@@ -371,9 +370,10 @@ def move_ball(x: int, y: int, vx: int, vy: int) -> tuple[int, int]:
     """
 
     # TODO: put your code!!!!
-    new_x = (x+vx)
-    new_y = (y+vy)
-    return new_x, new_y
+    # la bola es mou en x i en y, per tant creem 2 variables noves new_x i new_y
+    new_x = (x+vx) # pel que fa la x, la nova posició serà la posició anterior més la velocitat x (la qual ja té signe segons cap a on es dirigeix)
+    new_y = (y+vy) # i per la y, serà exactament lo mateix pero per les coordenades y
+    return new_x, new_y # retornem aquests 2 valors calculats, els quals es van repetint constantment al iniciar el programa per dirigir la pilota a cada frame
 
 
     # This line of code has been left for letting the full program work
@@ -399,15 +399,16 @@ def collide_ball_walls(x: int, y: int, vx: int, vy: int, radius: int, width: int
         For precisely detecting collisions, you might need to consider the ball radius
     """
     # TODO: put your code!!!!
-    if y - radius <= 0:
-        y = radius
-        vy = -vy
-        return x,y,vx,vy
-    elif y + radius >= height:
-        y = height - radius
-        vy = -vy
-        return x,y,vx,vy
-    else: return x,y,vx,vy
+    if y - radius <= 0: # quan la y menys el radi sigui menor o igual a 0, vol dir que la bola sortirà per l'extrem superior de la pantalla
+        y = radius # la tornem a aquest extrem
+        vy = -vy # canviem de signe la velocitat y per fer que reboti
+        return x,y,vx,vy # retornem les mateixes x i vx pero les y,vy canviades
+    elif y + radius >= height: # quan la y actual més el radi (l'extrem inferior de la bola) iguala o supera l'alçada de la pantalla vol dir que sortirà d'aquesta
+        y = height - radius # la retornem a aquesta posició per evitar que surti
+        vy = -vy # d'igual forma canviem el signe de vy per fer que reboti
+        return x,y,vx,vy # retornem les mateixes x i vx pero les y,vy canviades
+    else:
+         return x,y,vx,vy # en qualsevol altre cas on no estem a cap posició de l'extrem només retornem els valors normals
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
@@ -463,26 +464,27 @@ def collide_ball_paddle(x: int, y: int, vx: int, vy: int, paddle_x: int, paddle_
       which is sufficient for this game.
     """
     # TODO: put your code!!!!
-    left_paddle   = paddle_x
-    right_paddle  = paddle_x + paddle_w
-    top_paddle    = paddle_y
-    bottom_paddle = paddle_y + paddle_h
-    left_ball   = x - radius
-    right_ball  = x + radius
-    top_ball    = y - radius
-    bottom_ball = y + radius
+    # com ben hem vist a les notes, definirem unes noves variables per tractar tant la bola com la pala com a rectangles on tindrem cadascun dels seus paràmetres
+    left_paddle   = paddle_x # pared esquerra de la pala, només la coordenada x
+    right_paddle  = paddle_x + paddle_w # pared dreta de la pala, la coordenada x més el gruix de la pala
+    top_paddle    = paddle_y # la pared superior de la pala, només la coordenada y
+    bottom_paddle = paddle_y + paddle_h # pared inferior de la pala, la coordenada y més l'alçada de la pala
+    left_ball   = x - radius # pared esquerra de la bola, la x es troba al centre per tant li restem el seu radi
+    right_ball  = x + radius # pared dreta de la bola, la x es troba al centre per tant li sumem el radi
+    top_ball    = y - radius # pared superior de la bola, la y es troba al centre per tant li restem el radi (l'alçada va cap abaix, de 0 a height)
+    bottom_ball = y + radius # pared inferior de la bola, la y es troba al centre per tant li sumem el radi
     if right_ball >= left_paddle and left_ball <= right_paddle and bottom_ball >= top_paddle and top_ball <= bottom_paddle: # quan la bola col·lapsa amb el paddle i quan la seva part inferior o superior toca amb la pala
-        if vx < 0:
+        if vx < 0: # quan tingui direcció negativa
             x_new = right_paddle + radius # posa la bola a la posició de la pala esquerra (ja que té direcció negativa) més el radi, per no sol·lapar-se
-        elif vx > 0:
+        elif vx > 0: # quan tingui direcció positiva
             x_new = left_paddle - radius # posa la bola a la posició de la pala dreta (ja que té direcció positiva) menys el radi, per no sol·lapar-se
-        hit = True
-        vx_new = -vx
-    else:
+        hit = True # en qualsevol dels 2 casos es produeix un "hit"
+        vx_new = -vx # per tant, canbiem el signe en el qual estava la velocitat x de la bola
+    else: # a la resta de casos
         x_new = x
         vx_new = vx
-        hit = False
-    return x_new,y,vx_new,vy,hit
+        hit = False # no es produeix cap "hit"
+    return x_new,y,vx_new,vy,hit # en cas de que no es produeixi cap col·lisió només retornem els valors de sempre
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
@@ -522,10 +524,22 @@ def reset_ball(center_x: int, center_y: int, vx0: int, vy0: int, to_right: bool)
     """
 
     # TODO: put your code!!!!
+    if to_right: # comprovem si la bola va cap a la dreta
+        vy0 = random.randint(1, vy0 + 1) # agafem una nova velocitat en y al voltant de la que ja tenía per no fer canvis masa grans, i per tant agafarà una nova velocitat random entre aquest rang i cada punt serà diferent. A més començem en 1 per tal de no tenir cap sac horitzontal
+        direcció = random.choice((-1,1)) # fem una elecció al atzar de la direcció per així tornar també la pilota cap a adalt o cap a abaix. Posem doble parentesi per així detectar una sola tupla
+        vy0 = vy0 * direcció
+        return center_x, center_y, vx0, vy0 # vx0 es queda igual ja que va cap a la dreta 
+    else: # quan la bola cap a l'esquerra
+        vx0 = -vx0 # fem que la bola vagi cap a l'esquerra canviant la velocitat a negatiu
+        vy0 = random.randint(1, vy0 + 1)
+        direcció = random.choice((-1,1))
+        vy0 = vy0 * direcció
+        return center_x, center_y, vx0, vy0 # retornem els valors amb vx0 canviat per anar cap a l'esquerra quan marquin cap a l'esquerra
+
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate/modify it when adding your code
-    return center_x, center_y, vx0, vy0
+
 
 
 
@@ -570,7 +584,7 @@ def compute_ai_direction(ball_y: int, paddle_y: int, paddle_h: int) -> int:
 
 def read_player_direction(keys, key_up: int, key_down: int) -> int:
     """Return -1, 0, or +1 based on pressed keys."""
-    if keys[key_up]:
+    if keys[key_up]: 
         return -1
     elif keys[key_down]:
         return 1
