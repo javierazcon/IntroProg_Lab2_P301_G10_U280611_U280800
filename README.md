@@ -8,7 +8,7 @@ Nos hemos repartido el trabajo del programa entre los 2 para ayudarnos y entende
 Después, Javier ha hecho la función “get_config” y “read_color”, y Eric con colaboración de Javier ha realizado el resto de funciones.
 
 ## Funcionamento del programa:
-El programa realizado se organiza prácticamente con main(), el cual grita los valores de las funciones creadas, o sea los valores que hemos devuelto a cada una de las funciones con return.
+El programa realizado se organiza prácticamente con main(), el cual llama los valores de las funciones creadas, o sea los valores que hemos devuelto a cada una de las funciones con return.
 
 Antes que nada el que pide el programa son las funciones de configuración, o sea “get_config” y “change_colors” las cuales con la función “ask_yes_no” preguntan al usuario si quieren hacer cambios a las variables predeterminadas, y con “read_int_in_range” y “read_color” leen los valores introducidos por el usuario en cada una de las variables, por así poder devolverlas al código principal y ejecutarlas.
 
