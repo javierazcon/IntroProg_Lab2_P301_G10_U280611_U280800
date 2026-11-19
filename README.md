@@ -3,7 +3,7 @@
 ## Trabajo hecho:
 Esta nueva práctica 2 nos pide que hagamos un juego de ping-pong configurando las funciones que usa al ejecutarse, por lo tanto, primero tenemos que entender como quiere el programa que funcione, y por eso nos hemos mirado la guía del programa y así poder hacer unas funciones óptimas. 
 
-Nos hemos repartido el trabajo del programa entre los 2 para ayudarnos y entender bien el programa, el cual ha ido de forma progresiva, empezando por funciones básicas como “ask_yes_no”, “read_color”, “*read_int_in_range” las cuales las hemos hecho conjuntamente, para entender los dos las bases que usarían el resto de funciones requeridas durante el código.
+Nos hemos repartido el trabajo del programa entre los 2 para ayudarnos y entender bien el programa, el cual ha ido de forma progresiva, empezando por funciones básicas como “ask_yes_no”, “read_color”, “read_int_in_range” las cuales las hemos hecho conjuntamente, para entender los dos las bases que usarían el resto de funciones requeridas durante el código.
 
 Después, Javier ha hecho la función “get_config” y “read_color”, y Eric con colaboración de Javier ha realizado el resto de funciones.
 
