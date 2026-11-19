@@ -67,7 +67,7 @@ KEY_UP_RIGHT = pygame.K_UP          # arrow UP
 KEY_DOWN_RIGHT = pygame.K_DOWN      # arrow DOWN
 
 # Play against machine (optional feature): set to True once compute_ai_direction() is implemented
-PLAY_AGAINST_MACHINE = False
+PLAY_AGAINST_MACHINE = True 
 
 # ==============================================================================
 # Functions to complete by the students : configuration/setup before game starts
@@ -107,26 +107,18 @@ def get_config() -> tuple[int, int, int, int, int]:
     """
 
     # TODO: put your code!!!!
-    valid_input = False
-    while valid_input == False:
-        try:
-            if ask_yes_no("Vols cambiar els paràmetres principals? "): # Falta hacer que tenga un máximo de píxeles, imagino con un if.
-                PADDLE_H_UPDATE = int(input("Introdueix una nova altura de la pala (píxels): "))
-                PADDLE_H = PADDLE_H_UPDATE
-                SPEED_PADDLE_UPDATE = int(input("Introdueix una nova velocitat de la pala (píxels): "))
-                SPEED_PADDLE = SPEED_PADDLE_UPDATE
-                SPEED_BALL_X_UPDATE = int(input("Introdueix una nova velocitat de la bola en sentit x (píxels): "))
-                SPEED_BALL_X = SPEED_BALL_X_UPDATE
-                SPEED_BALL_Y_UPDATE = int(input("Introdueix una nova velocitat de la bola en sentit y (píxels): "))
-                SPEED_BALL_Y = SPEED_BALL_Y_UPDATE
-                BALL_RADIUS_UPDATE = int(input("Introdueix una nou radi de la bola (píxels): "))
-                BALL_RADIUS = BALL_RADIUS_UPDATE
-                valid_input = True
-            else:
-                valid_input = True
+    if ask_yes_no("Vols cambiar els paràmetres principals? "): # preguntem amb ask_yes_no a l'usuari si vol canviar la configuració, en aquest cas és True
+        # per a cadascun dels parametres el que fem es demanar-li a l'usuari un integer amb read_int_in_range, el qual es trobi en un rang raonable per a cadascuna
+        paddle_height = read_int_in_range("Introdueix una nova alçada de la pala (pixels)", 60, 160) 
+        paddle_speed = read_int_in_range("Introdueix una nova velocitat de la pala", 3, 15)
+        ball_x_speed = read_int_in_range("Introdueix una nova velocitat x de la bola", 3, 15)
+        ball_y_speed = read_int_in_range("Introdueix una nova velocitat y de la bola", 3, 10) 
+        ball_radius = read_int_in_range("Introdueix un nou radi de la bola (pixels)", 5, 25)
+        return paddle_height, paddle_speed, ball_x_speed, ball_y_speed, ball_radius
                 
-        except ValueError:
-            print("Introdueix un valor vàlid.")
+    else: # en aquest cas sería False, per tan retornem els parametres per defecte
+        return PADDLE_H, SPEED_PADDLE, SPEED_BALL_X, SPEED_BALL_Y, BALL_RADIUS
+ 
         
     # This line of code has been left for letting the full program work
     # It corresponds to the user answering NO to changing any default values 
@@ -573,10 +565,17 @@ def compute_ai_direction(ball_y: int, paddle_y: int, paddle_h: int) -> int:
     when the ball is aligned enough.
     """
     # TODO: put your code!!!!
+    paddle_center = paddle_y + paddle_h/2 # el centre de la pala estarà a la seva posició y més la meitat de la pala (ja que l'alçada va cap abaix)
+    if ball_y < paddle_center: # quan la bola es troba per sobre del centre de la pala
+        return -1
+    if ball_y > paddle_center: # quan la bola es troba sota el centre de la pala
+        return +1
+    else: # en cas de que la bola estigui justament al mig de la pala
+        return 0
+
 
     # This line of code has been left for letting the full program work
     # You will need to eliminate it when adding your code
-    return 0
 
 # =============================================
 # Checking KEYS UP/DOWN (given to the students)
